@@ -49,3 +49,8 @@ async def startup():
     # Create any missing tables
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    
+    print("\n" + "="*50)
+    print("🚀 Server is running!")
+    print("👉 Local URL: http://127.0.0.1:8000")
+    print("="*50 + "\n")
