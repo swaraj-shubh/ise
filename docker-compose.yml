@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres-server:
+    image: postgres:14
+    container_name: postgres-server
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # If you have any init scripts, mount an init_db folder:
+      # - ./init_db:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - pg-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d mydatabase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - pg-network
+    depends_on:
+      postgres-server:
+        condition: service_healthy
+
+networks:
+  pg-network:
+    name: pg-network
+
+volumes:
+  postgres_data:
+  pgadmin_data:
