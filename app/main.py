@@ -30,6 +30,10 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 async def root():
     return FileResponse("app/static/index.html")
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse("app/static/images.jpg")
+
 # Serve admin_login.html at /admin-login
 @app.get("/admin-login", include_in_schema=False)
 async def admin_login():
