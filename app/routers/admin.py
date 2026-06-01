@@ -100,7 +100,7 @@ async def insert_row(
 @router.put("/tables/{table_name}/{group_no}")
 async def update_row(
     table_name: str = Path(..., regex=r"^[0-9]{4}_[0-9]{2}$"),
-    group_no: int = Path(...),
+    group_no: str = Path(...),
     data: dict = Body(...),
     db: AsyncSession = Depends(get_db)
 ):
@@ -145,7 +145,7 @@ async def update_row(
 @router.delete("/tables/{table_name}/{group_no}")
 async def delete_row(
     table_name: str = Path(..., regex=r"^[0-9]{4}_[0-9]{2}$"),
-    group_no: int = Path(...),
+    group_no: str = Path(...),
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -260,10 +260,10 @@ async def upload_excel(
         except KeyError as e:
             raise HTTPException(status_code=400, detail=f"Column mapping error: {str(e)}\nAvailable columns: {df.columns.tolist()}")
         
-        # Clean and convert group numbers to integers
-        df[group_col] = pd.to_numeric(df[group_col], errors='coerce')
-        df = df.dropna(subset=[group_col])
-        df[group_col] = df[group_col].astype(int)
+        # Clean and convert group numbers to strings
+        df[group_col] = df[group_col].astype(str).str.strip()
+        # Drop rows where group_no is empty string or 'nan'
+        df = df[df[group_col].notna() & (df[group_col] != '') & (df[group_col] != 'nan')]
         
         # Group the data by group number
         def safe_list(x):

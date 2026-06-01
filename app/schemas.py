@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class ProjectBase(BaseModel):
-    group_no: int
+    group_no: str
     project_title: str
     guide_name: str
     usn: list[str]

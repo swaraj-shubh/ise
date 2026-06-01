@@ -5,7 +5,7 @@ from app.database import Base
 class Project(Base):
     __tablename__ = "2024_25"  # Repeat similar classes for other years
     
-    group_no = Column(Integer, primary_key=True)
+    group_no = Column(Text, primary_key=True)
     usn = Column(ARRAY(Text), nullable=False)
     name = Column(ARRAY(Text), nullable=False)
     project_title = Column(Text, nullable=False)
