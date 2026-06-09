@@ -237,9 +237,10 @@
         }
 
         .admin-btn:hover {
+            /* enlarge on hover */
             background: var(--yellow-light);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.45);
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.45);
         }
 
         .admin-btn i {
@@ -349,13 +350,48 @@
         /* ══════════════════════════════════════════════════════
        SEARCH CARD
     ══════════════════════════════════════════════════════ */
+        .searchbar-dropdown {
+            background-color: var(--white);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7fa8' d='M6 8.825L1.175 4 2.238 2.938 6 6.7l3.763-3.762L10.825 4z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding: 11px 36px 11px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            color: var(--text-dark);
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(27, 58, 140, 0.03);
+        }
+
+        .searchbar-dropdown:hover {
+            border-color: var(--navy-light);
+            background-color: #f8fafe;
+            box-shadow: 0 4px 12px rgba(27, 58, 140, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .searchbar-dropdown:focus {
+            border-color: var(--navy);
+            background-color: var(--white);
+            box-shadow: 0 0 0 3px rgba(27, 58, 140, 0.12);
+            transform: translateY(0);
+        }
+
         .search-container {
             max-width: 1400px;
             margin: -1.4rem auto 2rem;
             padding: 0 2rem;
             position: relative;
             z-index: 10;
-            animation: slideUp 0.7s ease-out;
         }
 
         .search-card {
@@ -365,12 +401,9 @@
             box-shadow: var(--shadow-lg);
             border: 1px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(12px);
-            transition: box-shadow 0.3s;
+            /* transition: box-shadow 0.3s; */
         }
 
-        .search-card:hover {
-            box-shadow: 0 28px 56px rgba(27, 58, 140, 0.22);
-        }
 
         .search-label {
             font-size: 11px;
@@ -443,9 +476,10 @@
         }
 
         .search-btn:hover {
+            /* enlarge on hover */
+            transform: scale(1.05);
             background: var(--navy-light);
-            box-shadow: 0 6px 20px rgba(27, 58, 140, 0.35);
-            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(3, 25, 85, 0.35);
         }
 
         .search-btn:active {
@@ -1217,10 +1251,10 @@
                     <i class="fas fa-search"></i> Search Projects
                 </div>
                 <form id="searchForm" class="search-form">
-                    <select id="year">
+                    <select class="searchbar-dropdown" id="year">
                         <option value="all">All Academic Years</option>
                     </select>
-                    <select id="searchType">
+                    <select class="searchbar-dropdown" id="searchType">
                         <option value="all">Search All Fields</option>
                         <option value="title">Project Title Only</option>
                         <option value="guide">Guide Name Only</option>
@@ -1320,7 +1354,7 @@
                 }
             });
 
-            const cards = document.querySelectorAll('.search-card, .results-card');
+            const cards = document.querySelectorAll('.results-card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function () {
                     this.style.transform = 'translateY(-5px) scale(1.02)';
